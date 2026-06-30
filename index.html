@@ -5,112 +5,115 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Daily Planner</title>
     <style>
-        body { font-family: sans-serif; padding: 20px; max-width: 400px; margin: auto; }
-        .stats { font-weight: bold; padding: 15px; background: #eef; border-radius: 8px; margin-bottom: 20px; text-align: center; }
-        h3 { color: #555; border-bottom: 1px solid #ddd; padding-bottom: 5px; }
+        :root { --accent: #4a90e2; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; padding: 20px; max-width: 450px; margin: auto; background-color: #f9f9fb; }
+        .card { background: white; padding: 20px; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+        h2 { color: #2d3436; margin-top: 0; text-align: center; }
+        .stats { font-weight: 700; padding: 15px; background: #eef7ff; color: var(--accent); border-radius: 10px; margin-bottom: 20px; text-align: center; border: 1px solid #d1e7ff; }
+        h3 { color: #636e72; font-size: 0.9em; text-transform: uppercase; letter-spacing: 1px; margin-top: 30px; border-bottom: 2px solid #f0f0f0; padding-bottom: 8px; }
         ul { list-style: none; padding: 0; }
-        li { padding: 10px 0; border-bottom: 1px solid #eee; }
-        input[type="checkbox"] { transform: scale(1.5); margin-right: 15px; }
+        li { padding: 14px 0; border-bottom: 1px solid #f4f4f4; display: flex; align-items: center; }
+        input[type="checkbox"] { width: 20px; height: 20px; margin-right: 15px; cursor: pointer; accent-color: var(--accent); }
+        input[type="checkbox"]:checked + span { text-decoration: line-through; color: #b2bec3; }
     </style>
 </head>
 <body>
 
+<div class="card">
     <h2>Daily Planner</h2>
     <div class="stats" id="stats">Loading...</div>
 
     <h3>Every Day</h3>
     <ul id="daily-list">
-        <li><input type="checkbox" class="task daily" onchange="save()"> Water Bottle 1</li>
-        <li><input type="checkbox" class="task daily" onchange="save()"> Water Bottle 2</li>
-        <li><input type="checkbox" class="task daily" onchange="save()"> Water Bottle 3</li>
-        <li><input type="checkbox" class="task daily" onchange="save()"> Water Bottle 4</li>
-        <li><input type="checkbox" class="task daily" onchange="save()"> Breakfast</li>
-        <li><input type="checkbox" class="task daily" onchange="save()"> Lunch</li>
-        <li><input type="checkbox" class="task daily" onchange="save()"> Dinner</li>
-        <li><input type="checkbox" class="task daily" onchange="save()"> Vitamin D</li>
-        <li><input type="checkbox" class="task daily" onchange="save()"> Read 30 minutes</li>
-        <li><input type="checkbox" class="task daily" onchange="save()"> Read 60 minutes total</li>
-        <li><input type="checkbox" class="task daily" onchange="save()"> Read 90 minutes total</li>
-        <li><input type="checkbox" class="task daily" onchange="save()"> Workout 15 minutes</li>
-        <li><input type="checkbox" class="task daily" onchange="save()"> Workout 30 minutes total</li>
-        <li><input type="checkbox" class="task daily" onchange="save()"> Workout 60 minutes total</li>
-        <li><input type="checkbox" class="task daily" onchange="save()"> Morning Face Yoga</li>
-        <li><input type="checkbox" class="task daily" onchange="save()"> Evening Face Yoga</li>
-        <li><input type="checkbox" class="task daily" onchange="save()"> Isa School Lessons</li>
-        <li><input type="checkbox" class="task daily" onchange="save()"> Michael School Lessons</li>
-        <li><input type="checkbox" class="task daily" onchange="save()"> Isabella Girl Scout Extra Activities</li>
-        <li><input type="checkbox" class="task daily" onchange="save()"> Read to Michael - at least 30 minutes</li>
-        <li><input type="checkbox" class="task daily" onchange="save()"> Play with Isabella - at least 20 minutes</li>
-        <li><input type="checkbox" class="task daily" onchange="save()"> Play with Michael - at least 20 minutes</li>
-        <li><input type="checkbox" class="task daily" onchange="save()"> Check/cut Isabella's nails/toenails</li>
-        <li><input type="checkbox" class="task daily" onchange="save()"> Check/cut Michael's nails/toenails</li>
-        <li><input type="checkbox" class="task daily" onchange="save()"> Check/cut Natalie's nails/toenails</li>
-        <li><input type="checkbox" class="task daily" onchange="save()"> Any Dailies for Work</li>
-        <li><input type="checkbox" class="task daily" onchange="save()"> Any Dxs for Work</li>
-        <li><input type="checkbox" class="task daily" onchange="save()"> Any Reauths for Work</li>
-        <li><input type="checkbox" class="task daily" onchange="save()"> EACH Field Trip Check-In</li>
-        <li><input type="checkbox" class="task daily" onchange="save()"> GS Troop Tasks</li>
-        <li><input type="checkbox" class="task daily" onchange="save()"> Pay Any Bills Due</li>
+        <li><input type="checkbox" class="task" id="water1" onchange="save()"> <span>Water Bottle 1</span></li>
+        <li><input type="checkbox" class="task" id="water2" onchange="save()"> <span>Water Bottle 2</span></li>
+        <li><input type="checkbox" class="task" id="water3" onchange="save()"> <span>Water Bottle 3</span></li>
+        <li><input type="checkbox" class="task" id="water4" onchange="save()"> <span>Water Bottle 4</span></li>
+        <li><input type="checkbox" class="task" id="breakfast" onchange="save()"> <span>Breakfast</span></li>
+        <li><input type="checkbox" class="task" id="lunch" onchange="save()"> <span>Lunch</span></li>
+        <li><input type="checkbox" class="task" id="dinner" onchange="save()"> <span>Dinner</span></li>
+        <li><input type="checkbox" class="task" id="vitd" onchange="save()"> <span>Vitamin D</span></li>
+        <li><input type="checkbox" class="task" id="read30" onchange="save()"> <span>Read 30 minutes</span></li>
+        <li><input type="checkbox" class="task" id="read60" onchange="save()"> <span>Read 60 minutes total</span></li>
+        <li><input type="checkbox" class="task" id="read90" onchange="save()"> <span>Read 90 minutes total</span></li>
+        <li><input type="checkbox" class="task" id="workout15" onchange="save()"> <span>Workout 15 minutes</span></li>
+        <li><input type="checkbox" class="task" id="workout30" onchange="save()"> <span>Workout 30 minutes total</span></li>
+        <li><input type="checkbox" class="task" id="workout60" onchange="save()"> <span>Workout 60 minutes total</span></li>
+        <li><input type="checkbox" class="task" id="yoga-m" onchange="save()"> <span>Morning Face Yoga</span></li>
+        <li><input type="checkbox" class="task" id="yoga-e" onchange="save()"> <span>Evening Face Yoga</span></li>
+        <li><input type="checkbox" class="task" id="isa-sch" onchange="save()"> <span>Isa School Lessons</span></li>
+        <li><input type="checkbox" class="task" id="mic-sch" onchange="save()"> <span>Michael School Lessons</span></li>
+        <li><input type="checkbox" class="task" id="gs-extra" onchange="save()"> <span>Isabella Girl Scout Extra Activities</span></li>
+        <li><input type="checkbox" class="task" id="read-mic" onchange="save()"> <span>Read to Michael - at least 30 minutes</span></li>
+        <li><input type="checkbox" class="task" id="play-isa" onchange="save()"> <span>Play with Isabella - at least 20 minutes</span></li>
+        <li><input type="checkbox" class="task" id="play-mic" onchange="save()"> <span>Play with Michael - at least 20 minutes</span></li>
+        <li><input type="checkbox" class="task" id="cut-isa" onchange="save()"> <span>Check/cut Isabella's nails/toenails</span></li>
+        <li><input type="checkbox" class="task" id="cut-mic" onchange="save()"> <span>Check/cut Michael's nails/toenails</span></li>
+        <li><input type="checkbox" class="task" id="cut-nat" onchange="save()"> <span>Check/cut Natalie's nails/toenails</span></li>
+        <li><input type="checkbox" class="task" id="work-daily" onchange="save()"> <span>Any Dailies for Work</span></li>
+        <li><input type="checkbox" class="task" id="work-dxs" onchange="save()"> <span>Any Dxs for Work</span></li>
+        <li><input type="checkbox" class="task" id="work-reauth" onchange="save()"> <span>Any Reauths for Work</span></li>
+        <li><input type="checkbox" class="task" id="each-ft" onchange="save()"> <span>EACH Field Trip Check-In</span></li>
+        <li><input type="checkbox" class="task" id="gs-troop" onchange="save()"> <span>GS Troop Tasks</span></li>
+        <li><input type="checkbox" class="task" id="bills" onchange="save()"> <span>Pay Any Bills Due</span></li>
     </ul>
 
     <h3 id="day-name">Today's Tasks</h3>
-    <ul id="day-list">
-        <!-- Day-specific tasks will be injected here -->
-    </ul>
+    <ul id="day-list"></ul>
+</div>
 
-    <script>
-        const dailyTasks = ["Clean Playroom", "Outdoor Play"];
-        const weeklySchedule = {
-            0: ["Sunday Homeschool Planning", "Text Clients", "Laundry"], // Sunday
-            1: ["Clients", "EACH Class Prep", "Guest Bathroom"], // Monday
-            2: ["Clients", "EACH Class Prep", "Isabella Soccer", "Master Bedroom"],   // Tuesday
-            3: ["Clients", "EACH Class Prep", "OT Michael", "Awana", "Laundry"],                       // Wednesday
-            4: ["Clients - if any", "EACH", "Girl Scouts", "Office", "Kitchen"],                  // Thursday
-            5: ["Clients - if any", "Michael Soccer", "Living Room", "Vacuum Apt"],                   // Friday
-            6: ["Fun Activity with Family", "Master Bathroom"]            // Saturday
-        };
+<script>
+    const weeklySchedule = {
+        0: ["Sunday Homeschool Planning", "Text Clients", "Laundry"],
+        1: ["Clients", "EACH Class Prep", "Guest Bathroom"],
+        2: ["Clients", "EACH Class Prep", "Isabella Soccer", "Master Bedroom"],
+        3: ["Clients", "EACH Class Prep", "OT Michael", "Awana", "Laundry"],
+        4: ["Clients - if any", "EACH", "Girl Scouts", "Office", "Kitchen"],
+        5: ["Clients - if any", "Michael Soccer", "Living Room", "Vacuum Apt"],
+        6: ["Fun Activity with Family", "Master Bathroom"]
+    };
 
-        function render() {
-            const today = new Date();
-            const dayIdx = today.getDay();
-            const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-            document.getElementById('day-name').innerText = days[dayIdx] + " Tasks";
+    function render() {
+        const today = new Date();
+        const dayIdx = today.getDay();
+        const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+        document.getElementById('day-name').innerText = days[dayIdx] + " Tasks";
 
-            const list = document.getElementById('day-list');
-            list.innerHTML = ''; // Clear current
-            
-            weeklySchedule[dayIdx].forEach((task, i) => {
-                const li = document.createElement('li');
-                li.innerHTML = `<input type="checkbox" class="task weekly" id="w-${i}" onchange="save()"> ${task}`;
-                list.appendChild(li);
+        const list = document.getElementById('day-list');
+        list.innerHTML = '';
+        weeklySchedule[dayIdx].forEach((task, i) => {
+            const li = document.createElement('li');
+            li.innerHTML = `<input type="checkbox" class="task" id="w-${i}" onchange="save()"> <span>${task}</span>`;
+            list.appendChild(li);
+        });
+        loadState();
+    }
+
+    function save() {
+        const state = { date: new Date().toDateString(), checks: {} };
+        document.querySelectorAll('.task').forEach(cb => state.checks[cb.id] = cb.checked);
+        localStorage.setItem('plannerState', JSON.stringify(state));
+        updateStats();
+    }
+
+    function loadState() {
+        const saved = JSON.parse(localStorage.getItem('plannerState'));
+        if (saved && saved.date === new Date().toDateString()) {
+            document.querySelectorAll('.task').forEach(cb => {
+                if (saved.checks[cb.id] !== undefined) cb.checked = saved.checks[cb.id];
             });
-            loadState();
         }
+        updateStats();
+    }
 
-        function save() {
-            // Save state with a date stamp so it resets tomorrow
-            const state = { date: new Date().toDateString(), checks: {} };
-            document.querySelectorAll('.task').forEach((cb, i) => state.checks[i] = cb.checked);
-            localStorage.setItem('plannerState', JSON.stringify(state));
-            updateStats();
-        }
+    function updateStats() {
+        const boxes = document.querySelectorAll('.task');
+        const checked = Array.from(boxes).filter(i => i.checked).length;
+        const percent = Math.round((checked / boxes.length) * 100);
+        document.getElementById('stats').innerText = `Progress: ${checked}/${boxes.length} (${percent}%)`;
+    }
 
-        function loadState() {
-            const saved = JSON.parse(localStorage.getItem('plannerState'));
-            if (saved && saved.date === new Date().toDateString()) {
-                document.querySelectorAll('.task').forEach((cb, i) => cb.checked = !!saved.checks[i]);
-            }
-            updateStats();
-        }
-
-        function updateStats() {
-            const boxes = document.querySelectorAll('.task');
-            const checked = Array.from(boxes).filter(i => i.checked).length;
-            const percent = Math.round((checked / boxes.length) * 100);
-            document.getElementById('stats').innerText = `Progress: ${checked}/${boxes.length} (${percent}%)`;
-        }
-
-        render();
-    </script>
+    render();
+</script>
 </body>
 </html>
