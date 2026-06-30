@@ -1,1 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Daily Planner</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; max-width: 400px; margin: auto; }
+        .stats { font-weight: bold; padding: 15px; background: #eef; border-radius: 8px; margin-bottom: 20px; text-align: center; }
+        h3 { color: #555; border-bottom: 1px solid #ddd; padding-bottom: 5px; }
+        ul { list-style: none; padding: 0; }
+        li { padding: 10px 0; border-bottom: 1px solid #eee; }
+        input[type="checkbox"] { transform: scale(1.5); margin-right: 15px; }
+    </style>
+</head>
+<body>
 
+    <h2>Daily Planner</h2>
+    <div class="stats" id="stats">Loading...</div>
+
+    <h3>Every Day</h3>
+    <ul id="daily-list">
+        <li><input type="checkbox" class="task daily" onchange="save()"> Water Bottle 1</li>
+        <li><input type="checkbox" class="task daily" onchange="save()"> Water Bottle 2</li>
+        <li><input type="checkbox" class="task daily" onchange="save()"> Water Bottle 3</li>
+        <li><input type="checkbox" class="task daily" onchange="save()"> Water Bottle 4</li>
+        <li><input type="checkbox" class="task daily" onchange="save()"> Breakfast</li>
+        <li><input type="checkbox" class="task daily" onchange="save()"> Lunch</li>
+        <li><input type="checkbox" class="task daily" onchange="save()"> Dinner</li>
+        <li><input type="checkbox" class="task daily" onchange="save()"> Vitamin D</li>
+        <li><input type="checkbox" class="task daily" onchange="save()"> Read 30 minutes</li>
+        <li><input type="checkbox" class="task daily" onchange="save()"> Read 60 minutes total</li>
+        <li><input type="checkbox" class="task daily" onchange="save()"> Read 90 minutes total</li>
+        <li><input type="checkbox" class="task daily" onchange="save()"> Workout 15 minutes</li>
+        <li><input type="checkbox" class="task daily" onchange="save()"> Workout 30 minutes total</li>
+        <li><input type="checkbox" class="task daily" onchange="save()"> Workout 60 minutes total</li>
+        <li><input type="checkbox" class="task daily" onchange="save()"> Morning Face Yoga</li>
+        <li><input type="checkbox" class="task daily" onchange="save()"> Evening Face Yoga</li>
+        <li><input type="checkbox" class="task daily" onchange="save()"> Isa School Lessons</li>
+        <li><input type="checkbox" class="task daily" onchange="save()"> Michael School Lessons</li>
+        <li><input type="checkbox" class="task daily" onchange="save()"> Isabella Girl Scout Extra Activities</li>
+        <li><input type="checkbox" class="task daily" onchange="save()"> Read to Michael - at least 30 minutes</li>
+        <li><input type="checkbox" class="task daily" onchange="save()"> Play with Isabella - at least 20 minutes</li>
+        <li><input type="checkbox" class="task daily" onchange="save()"> Play with Michael - at least 20 minutes</li>
+        <li><input type="checkbox" class="task daily" onchange="save()"> Check/cut Isabella's nails/toenails</li>
+        <li><input type="checkbox" class="task daily" onchange="save()"> Check/cut Michael's nails/toenails</li>
+        <li><input type="checkbox" class="task daily" onchange="save()"> Check/cut Natalie's nails/toenails</li>
+        <li><input type="checkbox" class="task daily" onchange="save()"> Any Dailies for Work</li>
+        <li><input type="checkbox" class="task daily" onchange="save()"> Any Dxs for Work</li>
+        <li><input type="checkbox" class="task daily" onchange="save()"> Any Reauths for Work</li>
+        <li><input type="checkbox" class="task daily" onchange="save()"> EACH Field Trip Check-In</li>
+        <li><input type="checkbox" class="task daily" onchange="save()"> Pay Any Bills Due</li>
+    </ul>
+
+    <h3 id="day-name">Today's Tasks</h3>
+    <ul id="day-list">
+        <!-- Day-specific tasks will be injected here -->
+    </ul>
+
+    <script>
+        const dailyTasks = ["Clean Playroom", "Outdoor Play"];
+        const weeklySchedule = {
+            0: ["Sunday Homeschool Planning", "Text Clients", "Laundry"], // Sunday
+            1: ["Clients", "EACH Class Prep", "Guest Bathroom"], // Monday
+            2: ["Clients", "EACH Class Prep", "Isabella Soccer", "Master Bedroom"],   // Tuesday
+            3: ["Clients", "EACH Class Prep", "OT Michael", "Awana", "Laundry"],                       // Wednesday
+            4: ["Clients - if any", "EACH", "Girl Scouts", "Office", "Kitchen"],                  // Thursday
+            5: ["Clients - if any", "Michael Soccer", "Living Room", "Vacuum Apt"],                   // Friday
+            6: ["Fun Activity with Family", "Master Bathroom"]            // Saturday
+        };
+
+        function render() {
+            const today = new Date();
+            const dayIdx = today.getDay();
+            const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+            document.getElementById('day-name').innerText = days[dayIdx] + " Tasks";
+
+            const list = document.getElementById('day-list');
+            list.innerHTML = ''; // Clear current
+            
+            weeklySchedule[dayIdx].forEach((task, i) => {
+                const li = document.createElement('li');
+                li.innerHTML = `<input type="checkbox" class="task weekly" id="w-${i}" onchange="save()"> ${task}`;
+                list.appendChild(li);
+            });
+            loadState();
+        }
+
+        function save() {
+            // Save state with a date stamp so it resets tomorrow
+            const state = { date: new Date().toDateString(), checks: {} };
+            document.querySelectorAll('.task').forEach((cb, i) => state.checks[i] = cb.checked);
+            localStorage.setItem('plannerState', JSON.stringify(state));
+            updateStats();
+        }
+
+        function loadState() {
+            const saved = JSON.parse(localStorage.getItem('plannerState'));
+            if (saved && saved.date === new Date().toDateString()) {
+                document.querySelectorAll('.task').forEach((cb, i) => cb.checked = !!saved.checks[i]);
+            }
+            updateStats();
+        }
+
+        function updateStats() {
+            const boxes = document.querySelectorAll('.task');
+            const checked = Array.from(boxes).filter(i => i.checked).length;
+            const percent = Math.round((checked / boxes.length) * 100);
+            document.getElementById('stats').innerText = `Progress: ${checked}/${boxes.length} (${percent}%)`;
+        }
+
+        render();
+    </script>
+</body>
+</html>
