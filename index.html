@@ -1,34 +1,26 @@
+HTML
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="apple-mobile-web-app-capable" content="yes">  
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
     <link rel="apple-touch-icon" href="apple-touch-icon.png">  
     <title>My Daily Planner</title>
     <style>
-        /* Updated to a nice Purple Theme */
         :root { --accent: #8e44ad; --light-bg: #fdf2f9; --border: #e8d0f2; }
-        
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; padding: 20px; max-width: 450px; margin: auto; background-color: #f4eff7; }
-        
         .card { background: white; padding: 20px; border-radius: 16px; box-shadow: 0 4px 15px rgba(142, 68, 173, 0.15); }
-        
         h2 { color: #5d2a73; margin-top: 0; text-align: center; }
-        
         .stats { font-weight: 700; padding: 15px; background: var(--light-bg); color: var(--accent); border-radius: 12px; margin-bottom: 20px; text-align: center; border: 1px solid var(--border); }
-        
         h3 { color: #8e44ad; font-size: 0.9em; text-transform: uppercase; letter-spacing: 1.5px; margin-top: 30px; border-bottom: 2px solid var(--border); padding-bottom: 8px; }
-        
         ul { list-style: none; padding: 0; }
-        
         li { padding: 14px 0; border-bottom: 1px solid #f9f4fb; display: flex; align-items: center; transition: background 0.3s; }
-        
         input[type="checkbox"] { width: 22px; height: 22px; margin-right: 15px; cursor: pointer; accent-color: var(--accent); }
-        
-        /* Strikethrough and color change when checked */
         input[type="checkbox"]:checked + span { text-decoration: line-through; color: #a5a5a5; }
-        
         span { font-size: 16px; color: #4a4a4a; transition: color 0.3s; }
     </style>
 </head>
@@ -113,6 +105,7 @@
 
     function loadState() {
         const saved = JSON.parse(localStorage.getItem('plannerState'));
+        // If the date in storage doesn't match today, it will simply NOT apply old checks
         if (saved && saved.date === new Date().toDateString()) {
             document.querySelectorAll('.task').forEach(cb => {
                 if (saved.checks[cb.id] !== undefined) cb.checked = saved.checks[cb.id];
@@ -127,6 +120,13 @@
         const percent = boxes.length > 0 ? Math.round((checked / boxes.length) * 100) : 0;
         document.getElementById('stats').innerText = `Progress: ${checked}/${boxes.length} (${percent}%)`;
     }
+
+    // Force check when app becomes active (e.g., waking phone from sleep)
+    document.addEventListener("visibilitychange", () => {
+        if (!document.hidden) {
+            render();
+        }
+    });
 
     render();
 </script>
